@@ -4380,7 +4380,7 @@ async function run() {
       core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
 
-      const message = `## Found ${hits.length} records matching your issue.\n\n${hits.map(hit => `[${hit.title}](${hit.url})`).join('\n')}`
+      const message = `## Found ${hits.length} records matching your issue.\n${hits.map(hit => `[${hit.title}](${hit.url})`).join('\n')}`
  
       core.info(message)
       core.setOutput('comment_body', message);
