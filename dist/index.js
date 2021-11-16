@@ -4365,7 +4365,7 @@ async function run() {
       indexName: core.getInput('index_name'),
       issueTitle: core.getInput('issue_title'),
     };
-    core.debug(`Inputs: ${inspect(inputs)}`);
+    core.info(`Inputs: ${inspect(inputs)}`);
 
     if (!inputs.appId && !inputs.apiKey && !inputs.indexName) {
       core.setFailed('Missing one or more of Algolia app id, API key, or index name.');
@@ -4377,6 +4377,7 @@ async function run() {
     const index = client.initIndex(inputs.indexName);
 
     index.search(inputs.issueTitle).then(({hits}) => {
+      core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
       core.setOutput('comment_body', JSON.stringify(hits));
     })
