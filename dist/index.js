@@ -4377,7 +4377,7 @@ async function run() {
     const index = client.initIndex(inputs.indexName);
 
     index.search(inputs.issueTitle).then(({hits}) => {
-      core.debug(`Hits: ${inspect(hits)}`);
+      core.info(`Hits: ${inspect(hits)}`);
       core.setOutput('comment_body', JSON.stringify(hits));
     })
       .catch(err => {
