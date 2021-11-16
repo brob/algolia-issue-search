@@ -35,7 +35,7 @@ async function run() {
         `).join('\n')}
         
       `
-
+ 
       core.info(message)
       core.setOutput('comment_body', message);
     })
