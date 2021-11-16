@@ -1,0 +1,29 @@
+name: 'Get Algolia Issue Records'
+description: 'Get 2-3 Issues from Algolia Bot Index'
+
+branding:
+  icon: 'search'  
+  color: 'blue'
+
+inputs:
+  app_id:
+    description: 'ID of this application in your Algolia account'
+    required: true
+  api_key:
+    description: 'API key with search permissions to the index in your Algolia account'
+    required: true
+  index_name:
+    description: 'Name of the index to search this record'
+    required: true
+  issue_title: 
+    description: 'Title from the Issue to base search on'
+    required: true
+
+outputs:
+  comment_body:
+    description: 'A comment body that contains some number of related issues'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
