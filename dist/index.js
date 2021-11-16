@@ -4379,7 +4379,20 @@ async function run() {
     index.search(inputs.issueTitle).then(({hits}) => {
       core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
-      core.setOutput('comment_body', JSON.stringify(hits));
+
+      const message = `
+        Found ${hits.length} records matching your issue.  \n\n
+
+        ${hits.map(hit => `
+          ${hit.objectID}:
+          [${hit.title}](${hit.url})
+          
+        `).join('\n')}
+        
+      `
+
+      core.info(message)
+      core.setOutput('comment_body', message);
     })
       .catch(err => {
         core.setFailed(err.message);
