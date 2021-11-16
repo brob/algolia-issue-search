@@ -26,7 +26,7 @@ async function run() {
       core.info(`Hits: ${inspect(hits)}`);
 
       const message = `
-## Found ${hits.length} records matching your issue.  \n\n
+## Found ${hits.length} records matching your issue.
 
 ${hits.map(hit => `[${hit.title}](${hit.url})`).join('\n')}
         
