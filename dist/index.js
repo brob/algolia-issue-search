@@ -4376,14 +4376,14 @@ async function run() {
     const client = algoliasearch(inputs.appId, inputs.apiKey);
     const index = client.initIndex(inputs.indexName);
 
-    index.search("", { 
+    index.search('', { 
         similarQuery: inputs.issueTitle,
-
+        hitsPerPage: 3
       }).then(({hits}) => {
       core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
 
-      const message = `## Found ${hits.length} records matching your issue.\n${hits.map(hit => `* [${hit.title}](${hit.url})`).slice(0,2).join('\n')}`
+      const message = `## Other issues similar to this one:\n${hits.map(hit => `* [${hit.title}](${hit.url})`).join('\n')}`
  
       core.info(message)
       core.setOutput('comment_body', message);
