@@ -4364,6 +4364,7 @@ async function run() {
       apiKey: core.getInput('api_key'),
       indexName: core.getInput('index_name'),
       issueTitle: core.getInput('issue_title'),
+      maxResults: core.getInput('max_results'),
     };
     core.info(`Inputs: ${inspect(inputs)}`);
 
@@ -4372,13 +4373,15 @@ async function run() {
       return;
     }
 
+    inputs.maxResults = inputs.maxResults || 3;
+
     // core.info(`Writing record to index ${inputs.indexName}`)
     const client = algoliasearch(inputs.appId, inputs.apiKey);
     const index = client.initIndex(inputs.indexName);
 
     index.search('', { 
         similarQuery: inputs.issueTitle,
-        hitsPerPage: 3
+        hitsPerPage: inputs.maxResults
       }).then(({hits}) => {
       core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
