@@ -18,7 +18,10 @@ inputs:
   issue_title: 
     description: 'Title from the Issue to base search on'
     required: true
-
+  max_results:
+    description: 'The maximum number of search results to return'
+    required: false
+    default: 3
 outputs:
   comment_body:
     description: 'A comment body that contains some number of related issues'

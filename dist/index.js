@@ -4364,6 +4364,7 @@ async function run() {
       apiKey: core.getInput('api_key'),
       indexName: core.getInput('index_name'),
       issueTitle: core.getInput('issue_title'),
+      maxResults: core.getInput('max_results'),
     };
     core.info(`Inputs: ${inspect(inputs)}`);
 
@@ -4372,18 +4373,20 @@ async function run() {
       return;
     }
 
+    inputs.maxResults = inputs.maxResults || 3;
+
     // core.info(`Writing record to index ${inputs.indexName}`)
     const client = algoliasearch(inputs.appId, inputs.apiKey);
     const index = client.initIndex(inputs.indexName);
 
-    index.search("", { 
+    index.search('', { 
         similarQuery: inputs.issueTitle,
-
+        hitsPerPage: inputs.maxResults
       }).then(({hits}) => {
       core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
 
-      const message = `## Found ${hits.length} records matching your issue.\n${hits.map(hit => `* [${hit.title}](${hit.url})`).slice(0,2).join('\n')}`
+      const message = `## Other issues similar to this one:\n${hits.map(hit => `* [${hit.title}](${hit.url})`).join('\n')}`
  
       core.info(message)
       core.setOutput('comment_body', message);
