@@ -35,6 +35,7 @@ async function run() {
  
       core.info(message)
       core.setOutput('comment_body', message);
+      core.setOutput('issues_list', hits);
     })
       .catch(err => {
         core.setFailed(err.message);
