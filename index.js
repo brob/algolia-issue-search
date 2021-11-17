@@ -30,12 +30,11 @@ async function run() {
       }).then(({hits}) => {
       core.info(`Searching for record`);
       core.info(`Hits: ${inspect(hits)}`);
-
       const message = `## Other issues similar to this one:\n${hits.map(hit => `* [${hit.title}](${hit.url})`).join('\n')}`
- 
+      const listItems = `${hits.map(hit => `* [${hit.title}](${hit.url})`).join('\n')}\n`
       core.info(message)
       core.setOutput('comment_body', message);
-      core.setOutput('issues_list', hits);
+      core.setOutput('issues_list', listItems);
     })
       .catch(err => {
         core.setFailed(err.message);
