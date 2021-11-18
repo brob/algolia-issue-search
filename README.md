@@ -3,19 +3,14 @@ A GitHub action to get "related" Issues from an Algolia Index.
 ## Usage
 
 ```yml
-      - name: Add to index
-        uses: ./.github/actions/add-index-record
-        with:
+      - id: search
+        name: Search based on issue title
+        uses: brob/algolia-issue-search@0ca6bf3df88919a4bfdf1fd87b4ecd425fa3b461
+        with: 
           app_id: ${{ secrets.ALGOLIA_APP_ID }}
           api_key: ${{ secrets.ALGOLIA_API_KEY }}
           index_name: ${{ github.event.repository.name }}
-          record: |
-            {
-              "title": "${{ github.event.issue.title }}", 
-              "url": "${{ github.event.issue.html_url }}", 
-              "labels": "${{ github.event.issue.labels }}",
-              "objectID": "${{ github.event.issue.number }}"
-            }
+          issue_title: ${{ github.event.issue.title }}
 ```
 
 ### Action inputs
@@ -23,29 +18,21 @@ A GitHub action to get "related" Issues from an Algolia Index.
 | Name | Description | Required |
 | --- | --- | --- |
 | `app_id` | ID of this application in your Algolia account (best stored in a Github Secret). | true |
-| `api_key` | API key with write permissions to the index in your Algolia account (best stored in a Github Secret). | true |
-| `index_name` | Name of the Algolia index to write this record. | true |
-| `record` | JSON record to write to this index as a string (see https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/#algolia-records for details). | true |
+| `api_key` | API key with search permissions to the index in your Algolia account (best stored in a Github Secret). | true |
+| `index_name` | Name of the Algolia index to search. | true |
+| `issue_title` | The title of the inciting Issue. This is used to search an Algolia Index. | true |
+| `max_results` | A maximum number of results to display (default: 3) | false |
 
 #### Outputs
 
-Outputs the ID of the created record object. Note that in order to read the step output the action step must have an id.
+This Action outputs two variables: `issues_list` and `comment_body`. Both return Markdown. `issues_list` is a simple list of the returned issues as Markdown anchor tags in a list item. `comment_body` is a full comment with the following structure:
 
-```yml
-      - name: Add to index
-        id: index_step
-        uses: chuckmeyer/add-algolia-record@v0
-        with:
-          app_id: ${{ secrets.ALGOLIA_APP_ID }}
-          api_key: ${{ secrets.ALGOLIA_API_KEY }}
-          index_name: ${{ github.event.repository.name }}
-          record: |
-            {"title": "${{ github.event.issue.title }}", "url": "${{ github.event.issue.html_url }}", "labels": "${{ github.event.issue.labels }}",
-             "objectID": "${{ github.event.issue.number }}"}
-      - name: Check outputs
-        run: |
-          echo "Object ID - ${{ steps.index_step.outputs.object_id }}"
+```markdown
+## Other issues similar to this one:
+
+* [Issue title](issue.url)
 ```
+
 
 ## License
 
