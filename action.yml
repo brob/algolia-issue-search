@@ -1,5 +1,5 @@
 name: 'Get Algolia Issue Records'
-description: 'Get 2-3 Issues from Algolia Bot Index'
+description: 'Get a number of related Issues from Algolia Bot Index'
 
 branding:
   icon: 'search'  
