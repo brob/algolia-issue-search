@@ -24,8 +24,9 @@ inputs:
     default: 3
 outputs:
   comment_body:
-    description: 'A comment body that contains some number of related issues'
-
+    description: 'A comment body that contains a default headline and some number of related issues as markdown'
+  issues_list:
+    description: 'Markdown representation of the results returned by Algolia. Output as a MD list'
 runs:
   using: 'node12'
   main: 'dist/index.js'
